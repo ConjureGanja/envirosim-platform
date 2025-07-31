@@ -1,22 +1,24 @@
 # Firebase build and deployment files
-/firebase-debug.log
-/firebase-debug.*.log
+firebase-debug.log
+firebase-debug.*.log
 .firebaserc
 
-# Firebase Hosting
-/firebase.json
+# Firebase Hosting - firebase.json should be committed for collaborative projects
+# firebase.json 
 *.cache
 hosting/.cache
 
 # Firebase Functions
-/functions/node_modules/
-/functions/.env
-/functions/package-lock.json
+functions/node_modules/
+functions/.env
+
+# package-lock.json should be committed to ensure consistent dependencies
+# functions/package-lock.json
 
 # Firebase Emulators
-/firebase-*.zip
-/.firebase/
-/emulator-ui/
+firebase-*.zip
+.firebase/
+emulator-ui/
 
 # Logs
 *.log
@@ -25,4 +27,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment files (local configs)
-/.env.*
+.env.*
