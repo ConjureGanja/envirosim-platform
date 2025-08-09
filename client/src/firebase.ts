@@ -7,14 +7,15 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 
 // --- PASTE YOUR CONFIG OBJECT FROM THE FIREBASE WEBSITE HERE ---
 const firebaseConfig = {
-  apiKey: "AIzaSyDaJcSKpqMr0-h1dpWzIZFToLSNgfD2RyI",
-  authDomain: "envirosim-dev.firebaseapp.com",
-  projectId: "envirosim-dev",
-  storageBucket: "envirosim-dev.firebasestorage.app",
-  messagingSenderId: "602323428897",
-  appId: "1:602323428897:web:77a3561f023ff35fc4e560",
-  measurementId: "G-L9PHQLZ2QJ"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID
 };
+
 // ----------------------------------------------------------------
 
 // Initialize Firebase with your project's unique keys
