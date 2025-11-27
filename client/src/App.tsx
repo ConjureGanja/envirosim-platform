@@ -1,14 +1,22 @@
 // client/src/App.tsx
 
-import React from 'react';
-import { Generator } from './components/Generator'; // Import our new component
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from './pages/Layout';
+import { Dashboard } from './pages/Dashboard';
+import { CreateWorld } from './pages/CreateWorld';
+import { WorldBible } from './pages/WorldBible';
 
 function App() {
   return (
-    <div>
-      {/* This will display our Generator component on the page */}
-      <Generator />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="create" element={<CreateWorld />} />
+          <Route path="world/:id/*" element={<WorldBible />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

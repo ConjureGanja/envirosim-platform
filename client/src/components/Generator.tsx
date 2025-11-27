@@ -1,6 +1,6 @@
 // client/src/components/Generator.tsx
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 // We import the reference to our backend function that we created in firebase.ts
 import { callAiOrchestrator } from '../firebase';
 
@@ -25,12 +25,17 @@ export const Generator = () => {
 
     try {
       // This is the key part: we call our backend function and pass the prompt
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const response: any = await callAiOrchestrator({ prompt: prompt });
       // If it works, we store the success message in our 'result' state variable
       setResult(`Success! New project created with ID: ${response.data.projectId}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       // If it fails, we store the error message in our 'error' state variable
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
     } finally {
       // --- End the loading process ---
       // This 'finally' block runs whether it succeeded or failed
