@@ -32,6 +32,6 @@
         "tailwindcss": "^3.4",
         "tailwindcss-animate": "^1.0.7",
         "typescript": "^5.2.2",
-        "vite": "^5.4.21"
+        "vite": "^5.2.0"
     }
 }
