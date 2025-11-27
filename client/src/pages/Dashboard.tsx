@@ -7,11 +7,7 @@ export const Dashboard = () => {
   // In a real app, this would fetch from Firestore using a hook
   const recentWorlds = [
     { id: '1', name: 'Neon Nexus', genre: 'Cyberpunk', lastEdited: '2 mins ago' },
-    { id: '2', name: 'Eldoria', genre: 'Fantasy', lastEdited: '1 hour ago' },
-    { id: '3', name: 'Solstice', genre: 'Post-Apocalyptic', lastEdited: 'Yesterday' },
-    { id: '4', name: 'Aetherium', genre: 'Steampunk', lastEdited: '3 days ago' },
-    { id: '5', name: 'Terra Prime', genre: 'Sci-Fi', lastEdited: '5 days ago' },
-    { id: '6', name: 'Mystvale', genre: 'Mystery', lastEdited: '1 week ago' },
+    // Add more mock data if needed or fetch real data
   ];
 
   return (

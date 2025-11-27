@@ -137,15 +137,10 @@ exports.aiOrchestrator = onCall({cors: true}, async (request) => {
 
   const {prompt} = request.data;
 
-  if (
-    !prompt ||
-    typeof prompt !== "string" ||
-    prompt.trim().length < 10 ||
-    prompt.length > 2000
-  ) {
-    throw new logger.https.HttpsError(
-      "invalid-argument",
-      'Prompt must be a string between 10 and 2000 characters.'
+  if (!prompt) {
+    throw new HttpsError(
+        "invalid-argument",
+        "The function must be called with a \"prompt\" argument.",
     );
   }
 
