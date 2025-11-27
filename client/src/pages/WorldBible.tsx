@@ -45,14 +45,14 @@ const Characters = ({ world }: { world: World }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
     {world.characters.map((char) => (
       <div key={char.id} className="bg-surface rounded-xl overflow-hidden border border-gray-700 flex flex-col">
-        <div className="h-48 bg-gray-800 relative group">
+        <div className="h-48 bg-gray-800 relative group" tabIndex={0}>
            {/* Placeholder for character image */}
            <div className="absolute inset-0 flex items-center justify-center text-gray-600">
              <span className="text-sm px-8 text-center">{char.imagePrompt}</span>
            </div>
            {/* Action overlay */}
-           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-              <button className="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Generate Image</button>
+           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity flex items-center justify-center gap-2">
+              <button className="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium" aria-label={`Generate image for ${char.name}`}>Generate Image</button>
            </div>
         </div>
         <div className="p-6 flex-1 flex flex-col">
