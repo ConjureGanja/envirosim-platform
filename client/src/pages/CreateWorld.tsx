@@ -20,7 +20,23 @@ export const CreateWorld = () => {
       navigate(`/world/${worldId}`);
     } catch (error) {
       console.error(error);
-      alert('Failed to generate world. See console.');
+      let errorMessage = 'Failed to generate world.';
+      // Check for network error
+      if (error && typeof error === 'object') {
+        // Firebase/network error
+        if ('code' in error && error.code === 'unavailable') {
+          errorMessage = 'Service is currently unavailable. Please try again later.';
+        } else if ('message' in error && typeof error.message === 'string') {
+          if (error.message.toLowerCase().includes('network')) {
+            errorMessage = 'Network error. Please check your internet connection and try again.';
+          } else if (error.message.toLowerCase().includes('validation')) {
+            errorMessage = 'Validation error. Please check your input and try again.';
+          } else {
+            errorMessage = error.message;
+          }
+        }
+      }
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
