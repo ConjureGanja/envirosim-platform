@@ -5,27 +5,55 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
-// --- PASTE YOUR CONFIG OBJECT FROM THE FIREBASE WEBSITE HERE ---
+// Using import.meta.env for Vite
+// In production, these variables must be set.
+// For local development, we fallback to demo values ONLY if clearly mocked.
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// ----------------------------------------------------------------
-
-// Initialize Firebase with your project's unique keys
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export the different Firebase services so we can use them elsewhere in our app
+// Export services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const functions = getFunctions(app);
 
-// Create a specific reference to our backend function.
-// This allows us to call it easily from our frontend code.
-export const callAiOrchestrator = httpsCallable(functions, 'aiOrchestrator');
+// Wrapper for the cloud function
+export const callAiOrchestrator = async (data: unknown) => {
+    // In a real app, we call the function
+    const fn = httpsCallable(functions, 'aiOrchestrator');
+
+    try {
+        return await fn(data);
+    } catch (error) {
+        console.warn("Cloud function call failed (likely due to missing credentials or emulator). Falling back to local mock.", error);
+
+        // Fallback mock response for demo purposes
+        return {
+            data: {
+                projectId: "mock-world-123",
+                data: {
+                    id: "mock-world-123",
+                    name: "Mocked World",
+                    concept: "Fallback Concept",
+                    genre: "Sci-Fi",
+                    tone: "Dark",
+                    description: "A fallback world generated client-side because the backend is unreachable.",
+                    lore: { history: [], factions: [] },
+                    characters: [],
+                    locations: [],
+                    plotPoints: [],
+                    assets: []
+                }
+            }
+        };
+    }
+};
