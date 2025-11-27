@@ -48,7 +48,7 @@ const Characters = ({ world }: { world: World }) => (
         <div className="h-48 bg-gray-800 relative group" tabIndex={0}>
            {/* Placeholder for character image */}
            <div className="absolute inset-0 flex items-center justify-center text-gray-600">
-             <span className="text-sm px-8 text-center">{char.imagePrompt}</span>
+             <span className="text-sm px-8 text-center">{/* Sanitization needed in real app */}{char.imagePrompt}</span>
            </div>
            {/* Action overlay */}
            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -153,6 +153,9 @@ export const WorldBible = () => {
                      plotPoints: [],
                      assets: []
                    });
+                } else {
+                    // Show error or handle not found
+                    console.error("World not found");
                 }
             }
         } catch (e) {
@@ -183,7 +186,7 @@ export const WorldBible = () => {
         </div>
         <nav className="flex-1 p-4 space-y-2">
             {tabs.map(tab => {
-                const isActive = tab.id === '' ? (currentTab === '' || !tabs.some(t => t.id === currentTab)) : currentTab === tab.id;
+                const isActive = tab.id === '' ? (currentTab === id || currentTab === undefined) : currentTab === tab.id;
                 return (
                     <Link
                         key={tab.id}

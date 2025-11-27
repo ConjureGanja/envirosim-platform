@@ -7,7 +7,7 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-const {onCall} = require("firebase-functions/v2/https");
+const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const admin = require("firebase-admin");
 
@@ -16,10 +16,10 @@ const db = admin.firestore();
 
 // Mock data generator helper
 const generateMockWorld = (prompt) => {
-  const worldId = `world-${Date.now()}`;
+  const worldId = admin.firestore().collection("worlds").doc().id;
   return {
     id: worldId,
-    name: "Neon Nexus",
+    name: "Neon Nexus" + (prompt ? " - Custom" : ""),
     concept: prompt,
     genre: "Sci-Fi / Cyberpunk",
     tone: "High-tech, Low-life",
@@ -128,10 +128,17 @@ const generateMockWorld = (prompt) => {
 
 // Cloud Function: aiOrchestrator
 exports.aiOrchestrator = onCall({cors: true}, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError(
+        "unauthenticated",
+        "The function must be called while authenticated.",
+    );
+  }
+
   const {prompt} = request.data;
 
   if (!prompt) {
-    throw new logger.https.HttpsError(
+    throw new HttpsError(
         "invalid-argument",
         "The function must be called with a \"prompt\" argument.",
     );
@@ -153,7 +160,7 @@ exports.aiOrchestrator = onCall({cors: true}, async (request) => {
     logger.info("World created successfully:", worldData.id);
   } catch (error) {
     logger.error("Error writing to Firestore:", error);
-    throw new logger.https.HttpsError(
+    throw new HttpsError(
         "internal",
         "Failed to save world data.",
     );
