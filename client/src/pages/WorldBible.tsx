@@ -183,7 +183,7 @@ export const WorldBible = () => {
         </div>
         <nav className="flex-1 p-4 space-y-2">
             {tabs.map(tab => {
-                const isActive = tab.id === '' ? (currentTab === id || currentTab === undefined) : currentTab === tab.id;
+                const isActive = tab.id === '' ? (currentTab === '' || !tabs.some(t => t.id === currentTab)) : currentTab === tab.id;
                 return (
                     <Link
                         key={tab.id}
